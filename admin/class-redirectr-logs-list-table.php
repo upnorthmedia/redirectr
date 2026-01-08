@@ -118,6 +118,13 @@ class Redirectr_Logs_List_Table extends WP_List_Table {
 			$where .= $wpdb->prepare( 'status = %s', $status_filter );
 		}
 
+		// Exclude URLs with file extensions by default.
+		$show_extensions = isset( $_REQUEST['show_extensions'] ) && '1' === $_REQUEST['show_extensions'];
+		if ( ! $show_extensions ) {
+			$where .= $where ? ' AND ' : ' WHERE ';
+			$where .= "url NOT REGEXP '\\\\.[a-zA-Z0-9]{2,10}$'";
+		}
+
 		// Get items.
 		$this->items = $wpdb->get_results(
 			$wpdb->prepare(
@@ -371,6 +378,18 @@ class Redirectr_Logs_List_Table extends WP_List_Table {
 				number_format_i18n( $redirected )
 			);
 		}
+
+		// Toggle for showing/hiding file extensions.
+		$show_extensions = isset( $_REQUEST['show_extensions'] ) && '1' === $_REQUEST['show_extensions'];
+		$toggle_url      = $show_extensions
+			? remove_query_arg( 'show_extensions', $base_url )
+			: add_query_arg( 'show_extensions', '1', $base_url );
+
+		$views['extensions'] = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( $toggle_url ),
+			$show_extensions ? __( 'Hide file extensions', 'redirectr' ) : __( 'Show file extensions', 'redirectr' )
+		);
 
 		return $views;
 	}

@@ -103,6 +103,10 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 ## Changelog
 
+### 1.0.2
+- Added display filter to hide URLs with file extensions in 404 logs by default
+- Added "Show/Hide file extensions" toggle in broken links table
+
 ### 1.0.1
 - Added default exclusion for `/.well-known/` directory
 - Added default exclusion for image file extensions (png, jpg, jpeg, gif, webp, svg, bmp, tiff, avif)
