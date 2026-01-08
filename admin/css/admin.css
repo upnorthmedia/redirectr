@@ -1,0 +1,372 @@
+/**
+ * Redirectr Admin Styles
+ *
+ * @package Redirectr
+ */
+
+/* General wrapper */
+.redirectr-wrap .wp-list-table .column-cb {
+	width: 2.2em;
+}
+
+.redirectr-wrap .wp-list-table .column-source_url,
+.redirectr-wrap .wp-list-table .column-destination_url,
+.redirectr-wrap .wp-list-table .column-url {
+	width: 28%;
+}
+
+.redirectr-wrap .wp-list-table .column-referrer {
+	width: 20%;
+}
+
+.redirectr-wrap .wp-list-table .column-redirect_type,
+.redirectr-wrap .wp-list-table .column-hit_count,
+.redirectr-wrap .wp-list-table .column-status {
+	width: 8%;
+}
+
+.redirectr-wrap .wp-list-table .column-first_seen,
+.redirectr-wrap .wp-list-table .column-last_seen,
+.redirectr-wrap .wp-list-table .column-updated_at {
+	width: 10%;
+}
+
+/* Status badges */
+.redirectr-status {
+	display: inline-block;
+	padding: 3px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+.redirectr-status-active {
+	background-color: #d4edda;
+	color: #155724;
+}
+
+.redirectr-status-inactive {
+	background-color: #f8d7da;
+	color: #721c24;
+}
+
+/* 404 Log statuses */
+.redirectr-404-status-new {
+	background-color: #fff3cd;
+	color: #856404;
+}
+
+.redirectr-404-status-ignored {
+	background-color: #e2e3e5;
+	color: #383d41;
+}
+
+.redirectr-404-status-redirected {
+	background-color: #d4edda;
+	color: #155724;
+}
+
+/* Match type badge */
+.redirectr-badge {
+	display: inline-block;
+	padding: 1px 6px;
+	margin-left: 5px;
+	border-radius: 3px;
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: uppercase;
+	vertical-align: middle;
+}
+
+.redirectr-badge-regex {
+	background-color: #e7f3ff;
+	color: #0073aa;
+}
+
+/* Hit count styling */
+.redirectr-hit-count {
+	font-weight: 600;
+	color: #0073aa;
+}
+
+.redirectr-hit-count.medium {
+	color: #dba617;
+}
+
+.redirectr-hit-count.high {
+	color: #d63638;
+}
+
+/* Muted text */
+.redirectr-muted {
+	color: #999;
+	font-style: italic;
+}
+
+/* Form table styling */
+.redirectr-form-table th {
+	width: 200px;
+	padding: 20px 10px 20px 0;
+}
+
+.redirectr-form-table td {
+	padding: 15px 10px;
+}
+
+.redirectr-form-table input[type="text"],
+.redirectr-form-table input[type="url"] {
+	width: 100%;
+	max-width: 500px;
+}
+
+.redirectr-form-table select {
+	min-width: 200px;
+}
+
+/* Modal styling */
+.redirectr-modal {
+	position: fixed;
+	z-index: 100000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.redirectr-modal-content {
+	background-color: #fff;
+	border-radius: 4px;
+	width: 500px;
+	max-width: 90%;
+	box-shadow: 0 3px 30px rgba(0, 0, 0, 0.3);
+}
+
+.redirectr-modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px 20px;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.redirectr-modal-header h2 {
+	margin: 0;
+	font-size: 18px;
+}
+
+.redirectr-modal-close {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 24px;
+	color: #646970;
+	padding: 0;
+	line-height: 1;
+}
+
+.redirectr-modal-close:hover {
+	color: #d63638;
+}
+
+.redirectr-modal-body {
+	padding: 20px;
+}
+
+.redirectr-modal-body p {
+	margin-bottom: 15px;
+}
+
+.redirectr-modal-body code {
+	display: block;
+	padding: 8px 10px;
+	margin-top: 5px;
+	background: #f0f0f1;
+	word-break: break-all;
+}
+
+.redirectr-modal-footer {
+	padding: 15px 20px;
+	border-top: 1px solid #dcdcde;
+	text-align: right;
+}
+
+.redirectr-modal-footer .button {
+	margin-left: 10px;
+}
+
+/* Settings cards */
+.redirectr-settings-card {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	padding: 0 20px 20px;
+	margin-bottom: 20px;
+}
+
+.redirectr-settings-card h2 {
+	margin: 0;
+	padding: 15px 0;
+	border-bottom: 1px solid #dcdcde;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.redirectr-settings-card .form-table {
+	margin-top: 0;
+}
+
+.redirectr-settings-card .widefat {
+	margin-top: 15px;
+}
+
+/* Row actions styling */
+.redirectr-wrap .row-actions {
+	padding: 2px 0 0;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+	.redirectr-wrap .wp-list-table .column-destination_url,
+	.redirectr-wrap .wp-list-table .column-referrer,
+	.redirectr-wrap .wp-list-table .column-first_seen {
+		display: none;
+	}
+
+	.redirectr-form-table th,
+	.redirectr-form-table td {
+		display: block;
+		width: 100%;
+	}
+
+	.redirectr-form-table th {
+		padding-bottom: 5px;
+	}
+
+	.redirectr-modal-content {
+		width: 95%;
+		margin: 20px;
+	}
+}
+
+/* Delete/action links */
+.redirectr-wrap .row-actions .delete a,
+.redirectr-wrap .redirectr-delete,
+.redirectr-wrap .redirectr-delete-404 {
+	color: #b32d2e;
+}
+
+.redirectr-wrap .row-actions .delete a:hover,
+.redirectr-wrap .redirectr-delete:hover,
+.redirectr-wrap .redirectr-delete-404:hover {
+	color: #a00;
+}
+
+/* Subsubsub links (views) */
+.redirectr-wrap .subsubsub {
+	margin-bottom: 10px;
+}
+
+/* Table row hover */
+.redirectr-wrap .wp-list-table tbody tr:hover {
+	background-color: #f6f7f7;
+}
+
+/* Loading state */
+.redirectr-loading {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* Inline add form */
+.redirectr-add-form-wrapper {
+	margin: 15px 0;
+}
+
+.redirectr-add-form-wrapper .redirectr-settings-card {
+	margin-bottom: 0;
+}
+
+.redirectr-add-form-wrapper .redirectr-settings-card h2 {
+	font-size: 14px;
+}
+
+.redirectr-add-form-wrapper .form-table th {
+	width: 150px;
+	padding: 12px 10px 12px 0;
+}
+
+.redirectr-add-form-wrapper .form-table td {
+	padding: 10px;
+}
+
+.redirectr-add-form-wrapper .description {
+	margin-top: 4px;
+	font-size: 12px;
+}
+
+/* Add New button positioning */
+.redirectr-tablenav-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px;
+}
+
+.redirectr-tablenav-top .bulkactions {
+	flex: 0 0 auto;
+}
+
+.redirectr-add-new-btn {
+	margin-left: auto !important;
+	order: 2;
+}
+
+.redirectr-tablenav-top .search-box {
+	order: 3;
+	margin: 0 !important;
+}
+
+.redirectr-tablenav-top br.clear {
+	display: none;
+}
+
+/* Empty state */
+.redirectr-empty-state {
+	background: #fff;
+	border: 1px solid #c3c4c7;
+	padding: 40px 20px;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.redirectr-empty-state p {
+	margin: 0;
+	color: #646970;
+	font-size: 14px;
+}
+
+/* Test link icon */
+.redirectr-test-link {
+	display: inline-block;
+	margin-left: 5px;
+	color: #2271b1;
+	text-decoration: none;
+	vertical-align: baseline;
+	line-height: 1;
+}
+
+.redirectr-test-link:hover {
+	color: #135e96;
+}
+
+.redirectr-test-link .dashicons {
+	font-size: 16px;
+	width: 16px;
+	height: 16px;
+	vertical-align: text-bottom;
+}
