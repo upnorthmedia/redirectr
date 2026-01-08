@@ -224,12 +224,13 @@ class Redirectr_Handler {
 	 * @return bool
 	 */
 	private static function is_excluded( $url ) {
-		// Always exclude WordPress core directories.
+		// Always exclude WordPress core directories and common system paths.
 		$core_exclusions = array(
 			'/wp-content/',
 			'/wp-admin/',
 			'/wp-includes/',
 			'/wp-json/',
+			'/.well-known/',
 		);
 
 		foreach ( $core_exclusions as $exclusion ) {
@@ -239,7 +240,10 @@ class Redirectr_Handler {
 		}
 
 		// Also exclude common file extensions that aren't pages.
-		$excluded_extensions = array( '.map', '.php', '.xml', '.txt', '.ico', '.css', '.js' );
+		$excluded_extensions = array(
+			'.map', '.php', '.xml', '.txt', '.ico', '.css', '.js',
+			'.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.tiff', '.avif',
+		);
 		foreach ( $excluded_extensions as $ext ) {
 			if ( substr( $url, -strlen( $ext ) ) === $ext ) {
 				return true;

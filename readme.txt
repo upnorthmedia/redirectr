@@ -3,7 +3,7 @@ Contributors: ghostguns
 Tags: redirect, 301 redirect, broken links, 404 error, seo
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,10 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 == Changelog ==
 
+= 1.0.1 =
+* Added default exclusion for `/.well-known/` directory
+* Added default exclusion for image file extensions (png, jpg, jpeg, gif, webp, svg, bmp, tiff, avif)
+
 = 1.0.0 =
 * Initial release
 * 301, 302, and 307 redirect support
@@ -121,6 +125,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 * Privacy-focused IP hashing
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Improved default filtering to exclude image files and .well-known directory from 404 logs.
 
 = 1.0.0 =
 Initial release of Redirectr. Install to start managing redirects and monitoring broken links.

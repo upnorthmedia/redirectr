@@ -103,6 +103,10 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 ## Changelog
 
+### 1.0.1
+- Added default exclusion for `/.well-known/` directory
+- Added default exclusion for image file extensions (png, jpg, jpeg, gif, webp, svg, bmp, tiff, avif)
+
 ### 1.0.0
 - Initial release
 - 301, 302, and 307 redirect support
