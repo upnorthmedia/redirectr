@@ -73,9 +73,6 @@ final class Redirectr {
 		// Check for DB updates.
 		add_action( 'init', array( 'Redirectr_Install', 'maybe_update_tables' ) );
 
-		// Load translations.
-		add_action( 'init', array( $this, 'load_textdomain' ) );
-
 		// Initialize redirect handler (very early priority).
 		add_action( 'template_redirect', array( 'Redirectr_Handler', 'maybe_redirect' ), 1 );
 
@@ -89,17 +86,6 @@ final class Redirectr {
 		if ( is_admin() ) {
 			add_action( 'init', array( 'Redirectr_Admin', 'init' ) );
 		}
-	}
-
-	/**
-	 * Load plugin textdomain for translations.
-	 */
-	public function load_textdomain() {
-		load_plugin_textdomain(
-			'redirectr',
-			false,
-			dirname( REDIRECTR_PLUGIN_BASENAME ) . '/languages'
-		);
 	}
 
 	/**

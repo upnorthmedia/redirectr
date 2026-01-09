@@ -7,8 +7,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$list_table = new Redirectr_Logs_List_Table();
-$list_table->prepare_items();
+$redirectr_list_table = new Redirectr_Logs_List_Table();
+$redirectr_list_table->prepare_items();
 ?>
 <div class="wrap redirectr-wrap">
 	<h1><?php esc_html_e( 'Broken Links', 'redirectr' ); ?></h1>
@@ -20,9 +20,9 @@ $list_table->prepare_items();
 
 	<form method="post" id="redirectr-logs-form">
 		<?php
-		$list_table->views();
-		$list_table->search_box( __( 'Search', 'redirectr' ), 'brokenlink' );
-		$list_table->display();
+		$redirectr_list_table->views();
+		$redirectr_list_table->search_box( __( 'Search', 'redirectr' ), 'brokenlink' );
+		$redirectr_list_table->display();
 		?>
 		<input type="hidden" name="redirectr_bulk_action" value="1" />
 	</form>

@@ -7,9 +7,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$list_table = new Redirectr_List_Table();
-$list_table->prepare_items();
-$has_items = $list_table->has_items();
+$redirectr_list_table = new Redirectr_List_Table();
+$redirectr_list_table->prepare_items();
+$redirectr_has_items = $redirectr_list_table->has_items();
 ?>
 <div class="wrap redirectr-wrap">
 	<h1><?php esc_html_e( 'Redirects', 'redirectr' ); ?></h1>
@@ -17,6 +17,7 @@ $has_items = $list_table->has_items();
 
 	<?php
 	// Display success message.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation.
 	if ( isset( $_GET['message'] ) && 'saved' === $_GET['message'] ) {
 		?>
 		<div class="notice notice-success is-dismissible">
@@ -75,16 +76,16 @@ $has_items = $list_table->has_items();
 							</th>
 							<td>
 								<select name="match_type" id="match_type">
-									<?php foreach ( redirectr_get_match_types() as $value => $label ) : ?>
-										<option value="<?php echo esc_attr( $value ); ?>">
-											<?php echo esc_html( $label ); ?>
+									<?php foreach ( redirectr_get_match_types() as $redirectr_value => $redirectr_label ) : ?>
+										<option value="<?php echo esc_attr( $redirectr_value ); ?>">
+											<?php echo esc_html( $redirectr_label ); ?>
 										</option>
 									<?php endforeach; ?>
 								</select>
 								<select name="redirect_type" id="redirect_type" style="margin-left: 10px;">
-									<?php foreach ( redirectr_get_redirect_types() as $value => $label ) : ?>
-										<option value="<?php echo esc_attr( $value ); ?>" <?php selected( $value, 301 ); ?>>
-											<?php echo esc_html( $label ); ?>
+									<?php foreach ( redirectr_get_redirect_types() as $redirectr_value => $redirectr_label ) : ?>
+										<option value="<?php echo esc_attr( $redirectr_value ); ?>" <?php selected( $redirectr_value, 301 ); ?>>
+											<?php echo esc_html( $redirectr_label ); ?>
 										</option>
 									<?php endforeach; ?>
 								</select>
@@ -111,45 +112,45 @@ $has_items = $list_table->has_items();
 	</div>
 
 	<form method="post" id="redirectr-redirects-form">
-		<?php $list_table->views(); ?>
+		<?php $redirectr_list_table->views(); ?>
 
 		<div class="tablenav top redirectr-tablenav-top">
 			<div class="alignleft actions bulkactions">
-				<?php if ( $has_items ) : ?>
-					<?php $list_table->bulk_actions( 'top' ); ?>
+				<?php if ( $redirectr_has_items ) : ?>
+					<?php $redirectr_list_table->bulk_actions( 'top' ); ?>
 				<?php endif; ?>
 			</div>
 			<button type="button" class="button button-primary redirectr-add-new-btn" id="redirectr-toggle-add-form">
 				<?php esc_html_e( '+ Add New Redirect', 'redirectr' ); ?>
 			</button>
-			<?php if ( $has_items ) : ?>
-				<?php $list_table->search_box( __( 'Search', 'redirectr' ), 'redirect' ); ?>
+			<?php if ( $redirectr_has_items ) : ?>
+				<?php $redirectr_list_table->search_box( __( 'Search', 'redirectr' ), 'redirect' ); ?>
 			<?php endif; ?>
 			<br class="clear" />
 		</div>
 
-		<?php if ( $has_items ) : ?>
+		<?php if ( $redirectr_has_items ) : ?>
 			<table class="wp-list-table widefat fixed striped table-view-list redirects">
 				<thead>
 					<tr>
-						<?php $list_table->print_column_headers(); ?>
+						<?php $redirectr_list_table->print_column_headers(); ?>
 					</tr>
 				</thead>
 				<tbody id="the-list">
-					<?php $list_table->display_rows(); ?>
+					<?php $redirectr_list_table->display_rows(); ?>
 				</tbody>
 				<tfoot>
 					<tr>
-						<?php $list_table->print_column_headers( false ); ?>
+						<?php $redirectr_list_table->print_column_headers( false ); ?>
 					</tr>
 				</tfoot>
 			</table>
 
 			<div class="tablenav bottom">
 				<div class="alignleft actions bulkactions">
-					<?php $list_table->bulk_actions( 'bottom' ); ?>
+					<?php $redirectr_list_table->bulk_actions( 'bottom' ); ?>
 				</div>
-				<?php $list_table->pagination( 'bottom' ); ?>
+				<?php $redirectr_list_table->pagination( 'bottom' ); ?>
 				<br class="clear" />
 			</div>
 		<?php else : ?>

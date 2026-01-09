@@ -30,6 +30,7 @@ function redirectr_get_new_404_count() {
 	$count = wp_cache_get( 'redirectr_new_404_count' );
 
 	if ( false === $count ) {
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, cached below.
 		$count = (int) $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$wpdb->redirectr_404_logs} WHERE status = 'new'"
 		);
@@ -60,8 +61,9 @@ function redirectr_get_redirect_count( $status = '' ) {
 		$where = $wpdb->prepare( ' WHERE status = %s', $status );
 	}
 
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table, $where is prepared above.
 	return (int) $wpdb->get_var(
-		"SELECT COUNT(*) FROM {$wpdb->redirectr_redirects}{$where}"
+		"SELECT COUNT(*) FROM {$wpdb->redirectr_redirects}{$where}" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	);
 }
 
@@ -79,8 +81,9 @@ function redirectr_get_404_log_count( $status = '' ) {
 		$where = $wpdb->prepare( ' WHERE status = %s', $status );
 	}
 
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Custom table, $where is prepared above.
 	return (int) $wpdb->get_var(
-		"SELECT COUNT(*) FROM {$wpdb->redirectr_404_logs}{$where}"
+		"SELECT COUNT(*) FROM {$wpdb->redirectr_404_logs}{$where}" // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	);
 }
 
@@ -93,6 +96,7 @@ function redirectr_cleanup_old_logs() {
 	$retention_days = Redirectr::get_option( 'log_retention_days', 30 );
 
 	if ( $retention_days > 0 ) {
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, cleanup operation.
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->redirectr_404_logs}

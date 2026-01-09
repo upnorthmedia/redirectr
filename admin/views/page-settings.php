@@ -8,16 +8,17 @@
 defined( 'ABSPATH' ) || exit;
 
 // Get current settings.
-$enable_404_logging      = Redirectr::get_option( 'enable_404_logging', 1 );
-$log_retention_days      = Redirectr::get_option( 'log_retention_days', 30 );
-$exclude_patterns        = Redirectr::get_option( 'exclude_patterns', '' );
-$auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 );
+$redirectr_enable_404_logging      = Redirectr::get_option( 'enable_404_logging', 1 );
+$redirectr_log_retention_days      = Redirectr::get_option( 'log_retention_days', 30 );
+$redirectr_exclude_patterns        = Redirectr::get_option( 'exclude_patterns', '' );
+$redirectr_auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 );
 ?>
 <div class="wrap redirectr-wrap">
 	<h1><?php esc_html_e( 'Redirectr Settings', 'redirectr' ); ?></h1>
 
 	<?php
 	// Display success message.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation.
 	if ( isset( $_GET['message'] ) && 'saved' === $_GET['message'] ) {
 		?>
 		<div class="notice notice-success is-dismissible">
@@ -43,7 +44,7 @@ $auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 )
 									   name="enable_404_logging"
 									   id="enable_404_logging"
 									   value="1"
-									   <?php checked( $enable_404_logging, 1 ); ?> />
+									   <?php checked( $redirectr_enable_404_logging, 1 ); ?> />
 								<?php esc_html_e( 'Track broken links visitors try to access', 'redirectr' ); ?>
 							</label>
 							<p class="description">
@@ -59,7 +60,7 @@ $auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 )
 							<input type="number"
 								   name="log_retention_days"
 								   id="log_retention_days"
-								   value="<?php echo esc_attr( $log_retention_days ); ?>"
+								   value="<?php echo esc_attr( $redirectr_log_retention_days ); ?>"
 								   min="1"
 								   max="365"
 								   class="small-text" />
@@ -77,7 +78,7 @@ $auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 )
 									   name="auto_delete_on_redirect"
 									   id="auto_delete_on_redirect"
 									   value="1"
-									   <?php checked( $auto_delete_on_redirect, 1 ); ?> />
+									   <?php checked( $redirectr_auto_delete_on_redirect, 1 ); ?> />
 								<?php esc_html_e( 'Remove broken link entry when a redirect is created for it', 'redirectr' ); ?>
 							</label>
 							<p class="description">
@@ -127,7 +128,7 @@ $auto_delete_on_redirect = Redirectr::get_option( 'auto_delete_on_redirect', 0 )
 									  id="exclude_patterns"
 									  rows="4"
 									  class="large-text code"
-									  placeholder="/custom-path/*&#10;/another-path/*"><?php echo esc_textarea( $exclude_patterns ); ?></textarea>
+									  placeholder="/custom-path/*&#10;/another-path/*"><?php echo esc_textarea( $redirectr_exclude_patterns ); ?></textarea>
 							<p class="description">
 								<?php esc_html_e( 'One pattern per line. Use * as wildcard. These are in addition to the default exclusions above.', 'redirectr' ); ?>
 							</p>

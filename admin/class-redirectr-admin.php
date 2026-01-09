@@ -245,6 +245,7 @@ class Redirectr_Admin {
 
 		if ( $redirect_id ) {
 			// Update existing.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 			$wpdb->update(
 				$wpdb->redirectr_redirects,
 				$validated,
@@ -255,6 +256,7 @@ class Redirectr_Admin {
 			$message = __( 'Redirect updated successfully.', 'redirectr' );
 		} else {
 			// Insert new.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom table, write operation.
 			$wpdb->insert(
 				$wpdb->redirectr_redirects,
 				$validated,
@@ -356,6 +358,7 @@ class Redirectr_Admin {
 			case 'delete':
 				// Get source URLs before deleting (to reset broken link statuses).
 				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, used immediately.
 				$source_urls  = $wpdb->get_col(
 					$wpdb->prepare(
 						"SELECT source_url FROM {$redirects_table} WHERE id IN ($placeholders)", // phpcs:ignore
@@ -364,6 +367,7 @@ class Redirectr_Admin {
 				);
 
 				// Delete the redirects.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->query(
 					$wpdb->prepare(
 						"DELETE FROM {$redirects_table} WHERE id IN ($placeholders)", // phpcs:ignore
@@ -374,6 +378,7 @@ class Redirectr_Admin {
 				// Reset broken links with these source URLs back to 'new'.
 				if ( ! empty( $source_urls ) ) {
 					$url_placeholders = implode( ',', array_fill( 0, count( $source_urls ), '%s' ) );
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 					$wpdb->query(
 						$wpdb->prepare(
 							"UPDATE {$broken_links_table} SET status = 'new' WHERE url IN ($url_placeholders) AND status = 'redirected'", // phpcs:ignore
@@ -387,6 +392,7 @@ class Redirectr_Admin {
 
 			case 'delete_404':
 				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->query(
 					$wpdb->prepare(
 						"DELETE FROM {$broken_links_table} WHERE id IN ($placeholders)", // phpcs:ignore
@@ -398,6 +404,7 @@ class Redirectr_Admin {
 
 			case 'activate':
 				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->query(
 					$wpdb->prepare(
 						"UPDATE {$wpdb->redirectr_redirects} SET status = 'active' WHERE id IN ($placeholders)", // phpcs:ignore
@@ -409,6 +416,7 @@ class Redirectr_Admin {
 
 			case 'deactivate':
 				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->query(
 					$wpdb->prepare(
 						"UPDATE {$wpdb->redirectr_redirects} SET status = 'inactive' WHERE id IN ($placeholders)", // phpcs:ignore
@@ -420,6 +428,7 @@ class Redirectr_Admin {
 
 			case 'ignore_404':
 				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->query(
 					$wpdb->prepare(
 						"UPDATE {$wpdb->redirectr_404_logs} SET status = 'ignored' WHERE id IN ($placeholders)", // phpcs:ignore
@@ -452,6 +461,7 @@ class Redirectr_Admin {
 		$broken_links_table = $wpdb->prefix . 'redirectr_404_logs';
 
 		// Get the source URL before deleting (to reset broken link status).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, used immediately.
 		$source_url = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT source_url FROM {$redirects_table} WHERE id = %d",
@@ -460,6 +470,7 @@ class Redirectr_Admin {
 		);
 
 		// Delete the redirect.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 		$result = $wpdb->delete(
 			$redirects_table,
 			array( 'id' => $id ),
@@ -469,6 +480,7 @@ class Redirectr_Admin {
 		if ( $result ) {
 			// Reset any broken links with this source URL back to 'new'.
 			if ( $source_url ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->update(
 					$broken_links_table,
 					array( 'status' => 'new' ),
@@ -510,6 +522,7 @@ class Redirectr_Admin {
 		global $wpdb;
 
 		// Get current status.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, used immediately.
 		$current = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT status FROM {$wpdb->redirectr_redirects} WHERE id = %d",
@@ -519,6 +532,7 @@ class Redirectr_Admin {
 
 		$new_status = 'active' === $current ? 'inactive' : 'active';
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 		$wpdb->update(
 			$wpdb->redirectr_redirects,
 			array( 'status' => $new_status ),
@@ -555,6 +569,7 @@ class Redirectr_Admin {
 		}
 
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 		$result = $wpdb->delete(
 			$wpdb->redirectr_404_logs,
 			array( 'id' => $id ),
@@ -587,6 +602,7 @@ class Redirectr_Admin {
 		}
 
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 		$wpdb->update(
 			$wpdb->redirectr_404_logs,
 			array( 'status' => 'ignored' ),
@@ -625,6 +641,7 @@ class Redirectr_Admin {
 		global $wpdb;
 
 		// Get the 404 log entry.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, used immediately.
 		$log = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT * FROM {$wpdb->redirectr_404_logs} WHERE id = %d",
@@ -637,6 +654,7 @@ class Redirectr_Admin {
 		}
 
 		// Create the redirect.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom table, write operation.
 		$inserted = $wpdb->insert(
 			$wpdb->redirectr_redirects,
 			array(
@@ -651,6 +669,7 @@ class Redirectr_Admin {
 
 		if ( $inserted ) {
 			// Update 404 log status.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 			$wpdb->update(
 				$wpdb->redirectr_404_logs,
 				array( 'status' => 'redirected' ),
@@ -661,6 +680,7 @@ class Redirectr_Admin {
 
 			// Optionally delete the 404 log.
 			if ( Redirectr::get_option( 'auto_delete_on_redirect', 0 ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 				$wpdb->delete(
 					$wpdb->redirectr_404_logs,
 					array( 'id' => $id ),

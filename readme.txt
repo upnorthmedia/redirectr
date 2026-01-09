@@ -3,7 +3,7 @@ Contributors: ghostguns
 Tags: redirect, 301 redirect, broken links, 404 error, seo
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 == Changelog ==
 
+= 1.0.3 =
+* Fixed false positive 404 logging for valid URLs caused by AJAX, REST API, HEAD, XML-RPC, and cron requests
+
 = 1.0.2 =
 * Added display filter to hide URLs with file extensions in 404 logs by default
 * Added "Show/Hide file extensions" toggle in broken links table
@@ -129,6 +132,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 * Privacy-focused IP hashing
 
 == Upgrade Notice ==
+
+= 1.0.3 =
+Fixes false positive 404 logging where valid pages like homepage appeared in broken links.
 
 = 1.0.2 =
 URLs with file extensions are now hidden by default in the 404 logs table, with a toggle to show them.

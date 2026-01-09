@@ -103,6 +103,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 ## Changelog
 
+### 1.0.3
+- Fixed false positive 404 logging for valid URLs caused by AJAX, REST API, HEAD, XML-RPC, and cron requests
+
 ### 1.0.2
 - Added display filter to hide URLs with file extensions in 404 logs by default
 - Added "Show/Hide file extensions" toggle in broken links table

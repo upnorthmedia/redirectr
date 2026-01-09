@@ -92,14 +92,17 @@ class Redirectr_List_Table extends WP_List_Table {
 
 		// Sorting.
 		$orderby_options = array( 'source_url', 'hit_count', 'updated_at' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation, values validated.
 		$orderby         = isset( $_REQUEST['orderby'] ) && in_array( $_REQUEST['orderby'], $orderby_options, true )
 			? sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) )
 			: 'updated_at';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation, values validated.
 		$order           = isset( $_REQUEST['order'] ) && 'asc' === strtolower( sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ) )
 			? 'ASC'
 			: 'DESC';
 
 		// Search.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation.
 		$search = isset( $_REQUEST['s'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) : '';
 		$where  = '';
 
@@ -112,6 +115,7 @@ class Redirectr_List_Table extends WP_List_Table {
 		}
 
 		// Filter by status.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation, values validated.
 		$status_filter = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
 		if ( $status_filter && in_array( $status_filter, array( 'active', 'inactive' ), true ) ) {
 			$where .= $where ? ' AND ' : ' WHERE ';
@@ -119,6 +123,7 @@ class Redirectr_List_Table extends WP_List_Table {
 		}
 
 		// Get items.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, pagination prevents effective caching.
 		$this->items = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT * FROM {$table_name} {$where} ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d", // phpcs:ignore
@@ -128,6 +133,7 @@ class Redirectr_List_Table extends WP_List_Table {
 		);
 
 		// Get total count.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, count for pagination.
 		$total_items = $wpdb->get_var(
 			"SELECT COUNT(*) FROM {$table_name} {$where}" // phpcs:ignore
 		);
@@ -299,6 +305,7 @@ class Redirectr_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_views() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation.
 		$current = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
 
 		$total    = redirectr_get_redirect_count();

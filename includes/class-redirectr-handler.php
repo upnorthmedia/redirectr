@@ -37,7 +37,22 @@ class Redirectr_Handler {
 			}
 
 			// Perform the redirect.
-			wp_redirect( $destination, (int) $redirect->redirect_type );
+			// Get destination host for external URLs.
+			$destination_host = wp_parse_url( $destination, PHP_URL_HOST );
+
+			// If external URL, temporarily allow that host for wp_safe_redirect.
+			// This is secure because destinations are set by admins in the database.
+			if ( ! empty( $destination_host ) ) {
+				add_filter(
+					'allowed_redirect_hosts',
+					function ( $hosts ) use ( $destination_host ) {
+						$hosts[] = $destination_host;
+						return $hosts;
+					}
+				);
+			}
+
+			wp_safe_redirect( esc_url_raw( $destination ), (int) $redirect->redirect_type );
 			exit;
 		}
 	}
@@ -49,6 +64,32 @@ class Redirectr_Handler {
 	public static function log_404() {
 		// Only log actual 404s.
 		if ( ! is_404() ) {
+			return;
+		}
+
+		// Skip non-standard request contexts that produce false positives.
+		// Skip AJAX requests.
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
+		// Skip REST API requests.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return;
+		}
+
+		// Skip HEAD requests (bots, prefetch).
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'HEAD' === $_SERVER['REQUEST_METHOD'] ) {
+			return;
+		}
+
+		// Skip XML-RPC requests.
+		if ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
+			return;
+		}
+
+		// Skip cron requests.
+		if ( wp_doing_cron() ) {
 			return;
 		}
 
@@ -71,6 +112,7 @@ class Redirectr_Handler {
 		$ip_hash    = hash( 'sha256', sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ?? '' ) ) . wp_salt() );
 
 		// Check if this URL already exists (upsert logic).
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table query, result used immediately.
 		$existing = $wpdb->get_row(
 			$wpdb->prepare(
 				"SELECT id FROM {$wpdb->redirectr_404_logs} WHERE url = %s",
@@ -80,6 +122,7 @@ class Redirectr_Handler {
 
 		if ( $existing ) {
 			// Update existing entry - increment hit count.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 			$wpdb->query(
 				$wpdb->prepare(
 					"UPDATE {$wpdb->redirectr_404_logs}
@@ -97,6 +140,7 @@ class Redirectr_Handler {
 			);
 		} else {
 			// Insert new entry.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Custom table, write operation.
 			$wpdb->insert(
 				$wpdb->redirectr_404_logs,
 				array(
@@ -140,6 +184,7 @@ class Redirectr_Handler {
 
 		if ( false === $cached_redirects ) {
 			// Load all active exact-match redirects into cache.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, cached below.
 			$exact_redirects = $wpdb->get_results(
 				"SELECT * FROM {$wpdb->redirectr_redirects}
 				WHERE status = 'active' AND match_type = 'exact'"
@@ -163,6 +208,7 @@ class Redirectr_Handler {
 		$regex_redirects = wp_cache_get( 'redirectr_regex_redirects' );
 
 		if ( false === $regex_redirects ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, cached below.
 			$regex_redirects = $wpdb->get_results(
 				"SELECT * FROM {$wpdb->redirectr_redirects}
 				WHERE status = 'active' AND match_type = 'regex'"
@@ -207,6 +253,7 @@ class Redirectr_Handler {
 	private static function increment_redirect_hit_count( $redirect_id ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, write operation.
 		$wpdb->query(
 			$wpdb->prepare(
 				"UPDATE {$wpdb->redirectr_redirects}
