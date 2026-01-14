@@ -340,10 +340,9 @@ class Redirectr_Logs_List_Table extends WP_List_Table {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display operation.
 		$current = isset( $_REQUEST['status'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['status'] ) ) : '';
 
-		$total      = redirectr_get_404_log_count();
-		$new        = redirectr_get_404_log_count( 'new' );
-		$ignored    = redirectr_get_404_log_count( 'ignored' );
-		$redirected = redirectr_get_404_log_count( 'redirected' );
+		$total   = redirectr_get_404_log_count();
+		$new     = redirectr_get_404_log_count( 'new' );
+		$ignored = redirectr_get_404_log_count( 'ignored' );
 
 		$base_url = admin_url( 'admin.php?page=redirectr-broken-links' );
 
@@ -374,16 +373,6 @@ class Redirectr_Logs_List_Table extends WP_List_Table {
 				'ignored' === $current ? 'current' : '',
 				__( 'Ignored', 'redirectr' ),
 				number_format_i18n( $ignored )
-			);
-		}
-
-		if ( $redirected > 0 ) {
-			$views['redirected'] = sprintf(
-				'<a href="%s" class="%s">%s <span class="count">(%s)</span></a>',
-				esc_url( add_query_arg( 'status', 'redirected', $base_url ) ),
-				'redirected' === $current ? 'current' : '',
-				__( 'Redirected', 'redirectr' ),
-				number_format_i18n( $redirected )
 			);
 		}
 

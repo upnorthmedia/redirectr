@@ -253,6 +253,21 @@ function redirectr_get_recovery_rate() {
 }
 
 /**
+ * Get count of 404 errors logged in the last 24 hours.
+ *
+ * @return int
+ */
+function redirectr_get_404_count_last_24h() {
+	global $wpdb;
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, time-sensitive query.
+	return (int) $wpdb->get_var(
+		"SELECT COUNT(*) FROM {$wpdb->redirectr_404_logs}
+		WHERE first_seen >= DATE_SUB(NOW(), INTERVAL 24 HOUR)"
+	);
+}
+
+/**
  * Validate a redirect before saving.
  *
  * @param array $data Redirect data.

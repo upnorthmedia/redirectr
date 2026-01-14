@@ -27,11 +27,11 @@ $redirectr_has_items = $redirectr_list_table->has_items();
 	}
 
 	// Stats bar data.
-	$redirectr_broken_links   = redirectr_get_404_log_count();
-	$redirectr_new_404s       = redirectr_get_new_404_count();
-	$redirectr_total_404_hits = redirectr_get_total_404_hits();
-	$redirectr_saved_visits   = redirectr_get_saved_visits();
-	$redirectr_recovery_rate  = redirectr_get_recovery_rate();
+	$redirectr_broken_links    = redirectr_get_404_log_count();
+	$redirectr_new_404s_24h    = redirectr_get_404_count_last_24h();
+	$redirectr_total_404_hits  = redirectr_get_total_404_hits();
+	$redirectr_saved_visits    = redirectr_get_saved_visits();
+	$redirectr_recovery_rate   = redirectr_get_recovery_rate();
 	?>
 
 	<!-- Stats Bar -->
@@ -39,8 +39,8 @@ $redirectr_has_items = $redirectr_list_table->has_items();
 		<div class="redirectr-stat-card">
 			<div class="redirectr-stat-number"><?php echo esc_html( number_format_i18n( $redirectr_broken_links ) ); ?></div>
 			<div class="redirectr-stat-label"><?php esc_html_e( 'Broken Links', 'redirectr' ); ?></div>
-			<?php if ( $redirectr_new_404s > 0 ) : ?>
-				<div class="redirectr-stat-sublabel"><?php echo esc_html( number_format_i18n( $redirectr_new_404s ) ); ?> <?php esc_html_e( 'new', 'redirectr' ); ?></div>
+			<?php if ( $redirectr_new_404s_24h > 0 ) : ?>
+				<div class="redirectr-stat-sublabel"><?php echo esc_html( number_format_i18n( $redirectr_new_404s_24h ) ); ?> <?php esc_html_e( 'in last 24h', 'redirectr' ); ?></div>
 			<?php endif; ?>
 		</div>
 		<div class="redirectr-stat-card">

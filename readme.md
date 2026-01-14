@@ -104,7 +104,10 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 ## Changelog
 
 ### 1.0.4
-- Added stats dashboard on Redirects page showing Broken Links, 404 Hits, Saved Visits, and Traffic Recovery Rate
+- 
+
+- Removed notification badge from admin menu
+- Removed "Redirected" tab from Broken Links page
 
 ### 1.0.3
 - Fixed false positive 404 logging for valid URLs caused by AJAX, REST API, HEAD, XML-RPC, and cron requests

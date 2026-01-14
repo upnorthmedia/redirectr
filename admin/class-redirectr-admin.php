@@ -35,20 +35,10 @@ class Redirectr_Admin {
 	 * Add admin menu pages.
 	 */
 	public static function add_menu_pages() {
-		$new_404_count = redirectr_get_new_404_count();
-		$count_bubble  = '';
-		if ( $new_404_count > 0 ) {
-			$count_bubble = sprintf(
-				' <span class="update-plugins count-%1$d"><span class="plugin-count">%2$s</span></span>',
-				$new_404_count,
-				number_format_i18n( $new_404_count )
-			);
-		}
-
 		// Main menu.
 		$hook_main = add_menu_page(
 			__( 'Redirectr', 'redirectr' ),
-			__( 'Redirectr', 'redirectr' ) . $count_bubble,
+			__( 'Redirectr', 'redirectr' ),
 			'manage_options',
 			'redirectr',
 			array( __CLASS__, 'page_redirects' ),
@@ -80,7 +70,7 @@ class Redirectr_Admin {
 		$hook_404 = add_submenu_page(
 			'redirectr',
 			__( 'Broken Links', 'redirectr' ),
-			__( 'Broken Links', 'redirectr' ) . $count_bubble,
+			__( 'Broken Links', 'redirectr' ),
 			'manage_options',
 			'redirectr-broken-links',
 			array( __CLASS__, 'page_404_logs' )
