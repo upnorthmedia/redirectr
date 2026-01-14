@@ -194,6 +194,65 @@ function redirectr_clear_redirect_cache() {
 }
 
 /**
+ * Get total sum of all 404 hits.
+ *
+ * @return int
+ */
+function redirectr_get_total_404_hits() {
+	global $wpdb;
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, aggregate query.
+	return (int) $wpdb->get_var(
+		"SELECT COALESCE(SUM(hit_count), 0) FROM {$wpdb->redirectr_404_logs}"
+	);
+}
+
+/**
+ * Get total saved visits (sum of hit counts for active 301 redirects).
+ *
+ * @return int
+ */
+function redirectr_get_saved_visits() {
+	global $wpdb;
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, aggregate query.
+	return (int) $wpdb->get_var(
+		"SELECT COALESCE(SUM(hit_count), 0)
+		FROM {$wpdb->redirectr_redirects}
+		WHERE redirect_type = 301 AND status = 'active'"
+	);
+}
+
+/**
+ * Get total unhandled 404 hits (sum of hit counts for new 404s).
+ *
+ * @return int
+ */
+function redirectr_get_unhandled_404_hits() {
+	global $wpdb;
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Custom table, aggregate query.
+	return (int) $wpdb->get_var(
+		"SELECT COALESCE(SUM(hit_count), 0)
+		FROM {$wpdb->redirectr_404_logs}
+		WHERE status = 'new'"
+	);
+}
+
+/**
+ * Get traffic recovery rate percentage.
+ *
+ * @return int Percentage (0-100).
+ */
+function redirectr_get_recovery_rate() {
+	$saved     = redirectr_get_saved_visits();
+	$unhandled = redirectr_get_unhandled_404_hits();
+	$total     = $saved + $unhandled;
+
+	return $total > 0 ? (int) round( ( $saved / $total ) * 100 ) : 0;
+}
+
+/**
  * Validate a redirect before saving.
  *
  * @param array $data Redirect data.

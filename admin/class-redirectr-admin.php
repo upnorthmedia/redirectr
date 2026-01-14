@@ -190,19 +190,25 @@ class Redirectr_Admin {
 
 	/**
 	 * Handle form submissions.
+	 *
+	 * Note: Nonce verification occurs in each individual handler method,
+	 * not in this dispatcher. This is intentional to keep nonce actions specific.
 	 */
 	public static function handle_form_submissions() {
 		// Handle redirect save.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in save_redirect().
 		if ( isset( $_POST['redirectr_save_redirect'] ) ) {
 			self::save_redirect();
 		}
 
 		// Handle settings save.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in save_settings().
 		if ( isset( $_POST['redirectr_save_settings'] ) ) {
 			self::save_settings();
 		}
 
 		// Handle bulk actions.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in handle_bulk_action().
 		if ( isset( $_POST['redirectr_bulk_action'] ) ) {
 			self::handle_bulk_action();
 		}

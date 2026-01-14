@@ -3,7 +3,7 @@
  * Plugin Name: Redirectr - 301 Redirects & Broken Link Monitor
  * Plugin URI: https://ghostguns.com
  * Description: Manage 301 redirects and monitor 404 errors with a clean admin interface.
- * Version: 1.0.3
+ * Version: 1.0.4
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Ghost Guns
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 // Plugin constants (with guards to prevent redefinition errors).
 if ( ! defined( 'REDIRECTR_VERSION' ) ) {
-	define( 'REDIRECTR_VERSION', '1.0.3' );
+	define( 'REDIRECTR_VERSION', '1.0.4' );
 }
 if ( ! defined( 'REDIRECTR_DB_VERSION' ) ) {
 	define( 'REDIRECTR_DB_VERSION', '1.0.0' );

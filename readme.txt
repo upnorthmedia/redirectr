@@ -3,7 +3,7 @@ Contributors: ghostguns
 Tags: redirect, 301 redirect, broken links, 404 error, seo
 Requires at least: 6.0
 Tested up to: 6.9
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 
 == Changelog ==
 
+= 1.0.4 =
+* Added stats dashboard on Redirects page showing Broken Links, 404 Hits, Saved Visits, and Traffic Recovery Rate
+
 = 1.0.3 =
 * Fixed false positive 404 logging for valid URLs caused by AJAX, REST API, HEAD, XML-RPC, and cron requests
 
@@ -132,6 +135,9 @@ Yes. Redirectr performs redirects before content is generated, so it works corre
 * Privacy-focused IP hashing
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+New stats dashboard shows the value of your redirect management at a glance.
 
 = 1.0.3 =
 Fixes false positive 404 logging where valid pages like homepage appeared in broken links.
